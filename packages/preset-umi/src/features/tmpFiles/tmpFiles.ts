@@ -236,9 +236,8 @@ export default function EmptyRoute() {
         });
         if (pluginExports.length) {
           exports.push(
-            `export { ${pluginExports.join(', ')} } from '${join(
-              api.paths.absTmpPath,
-              plugin,
+            `export { ${pluginExports.join(', ')} } from '${winPath(
+              join(api.paths.absTmpPath, plugin),
             )}';`,
           );
         }

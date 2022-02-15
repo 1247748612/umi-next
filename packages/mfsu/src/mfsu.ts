@@ -30,6 +30,10 @@ import { makeArray } from './utils/makeArray';
 import { BuildDepPlugin } from './webpackPlugins/buildDepPlugin';
 import { WriteCachePlugin } from './webpackPlugins/writeCachePlugin';
 
+export function slash(p: string): string {
+  return p.replace(/\\/g, '/');
+}
+
 interface IOpts {
   cwd?: string;
   excludeNodeNatives?: boolean;
@@ -116,6 +120,7 @@ export class MFSU {
           );
           entry = realEntry;
         }
+        console.log('entry: ', entry);
         const content = readFileSync(entry, 'utf-8');
         const [_imports, exports] = await parseModule({ content, path: entry });
         if (exports.length) {
@@ -222,8 +227,9 @@ promise new Promise(resolve => {
       cwd: this.opts.cwd!,
       mfsu: this,
     });
+
     logger.info('MFSU buildDeps');
-    logger.debug(deps.map((dep) => dep.file).join(', '));
+    logger.info(deps.map((dep) => dep.file).join(', '));
     await this.depBuilder.build({
       deps,
     });
@@ -276,11 +282,11 @@ promise new Promise(resolve => {
         };
       }) => {
         this.depInfo.moduleGraph.onFileChange({
-          file,
+          file: slash(file),
           // @ts-ignore
           deps: [
             ...Array.from(data.matched).map((item: any) => ({
-              file: item.sourceValue,
+              file: slash(item.sourceValue),
               isDependency: true,
               version: Dep.getDepVersion({
                 dep: item.sourceValue,
@@ -288,10 +294,12 @@ promise new Promise(resolve => {
               }),
             })),
             ...Array.from(data.unMatched).map((item: any) => ({
-              file: getRealPath({
-                file,
-                dep: item.sourceValue,
-              }),
+              file: slash(
+                getRealPath({
+                  file,
+                  dep: item.sourceValue,
+                }) || '',
+              ),
               isDependency: false,
             })),
           ],

@@ -27,6 +27,7 @@ type IOpts = {
 export async function dev(opts: IOpts) {
   const enableMFSU = opts.config.mfsu !== false;
   let mfsu: MFSU | null = null;
+  console.log('enableMFSU: ', enableMFSU);
   if (enableMFSU) {
     if (opts.config.srcTranspiler === Transpiler.swc) {
       logger.warn(

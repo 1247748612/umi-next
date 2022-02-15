@@ -1,8 +1,8 @@
 import * as allIcons from '@ant-design/icons';
 import assert from 'assert';
-import { dirname } from 'path';
+import { dirname, join } from 'path';
 import { IApi } from 'umi';
-import { lodash, Mustache } from 'umi/plugin-utils';
+import { lodash, Mustache, winPath } from 'umi/plugin-utils';
 import { resolveProjectDep } from './utils/resolveProjectDep';
 import { withTmpPath } from './utils/withTmpPath';
 
@@ -187,7 +187,9 @@ const { formatMessage } = useIntl();
       content: `
 ${icons
   .map((icon) => {
-    return `import ${icon} from '${antIconsPath}/es/icons/${icon}';`;
+    return `import ${icon} from '${winPath(
+      join(antIconsPath, 'es', 'icons', icon),
+    )}';`;
   })
   .join('\n')}
 export default { ${icons.join(', ')} };

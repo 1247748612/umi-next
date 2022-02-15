@@ -5,9 +5,9 @@ import { ConfigProvider } from 'antd';
 
 {{#MomentLocales.length}}
 import moment from '{{{momentPkgPath}}}';
-{{#MomentLocales}}
-import '{{{momentPkgPath}}}/locale/{{.}}';
-{{/MomentLocales}}
+
+{{{MomentLocales}}}
+
 {{/MomentLocales.length}}
 import { RawIntlProvider, getLocale, getDirection , setIntl, getIntl, localeInfo, event, LANG_CHANGE_EVENT } from './localeExports';
 

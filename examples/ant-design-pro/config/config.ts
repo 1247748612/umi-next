@@ -7,6 +7,7 @@ const { REACT_APP_ENV } = process.env;
 export default defineConfig({
   hash: true,
   model: {},
+  mfsu: false,
   antd: {},
   request: {},
   initialState: {},
@@ -291,16 +292,6 @@ export default defineConfig({
       path: '/editor',
       routes: [
         {
-          path: '/editor',
-          redirect: '/editor/flow',
-        },
-        {
-          name: 'flow',
-          icon: 'smile',
-          path: '/editor/flow',
-          component: './editor/flow',
-        },
-        {
           name: 'mind',
           icon: 'smile',
           path: '/editor/mind',
@@ -344,7 +335,6 @@ export default defineConfig({
   },
   // Fast Refresh 热更新
   fastRefresh: true,
-  mfsu: {},
   chainWebpack(memo: any) {
     memo.plugin('monaco-editor').use(MonacoEditorWebpackPlugin, []);
     return memo;

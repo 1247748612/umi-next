@@ -57,7 +57,7 @@ export default (api: IApi) => {
 
   api.registerMethod({
     name: 'writeTmpFile',
-    fn(opts: {
+    async fn(opts: {
       path: string;
       content?: string;
       tpl?: string;
@@ -105,7 +105,7 @@ export default (api: IApi) => {
 
       // transform imports for all javascript-like files
       if (/\.(t|j)sx?$/.test(absPath)) {
-        content = transformIEAR({ content, path: absPath }, api);
+        content = await transformIEAR({ content, path: absPath }, api);
       }
 
       if (!existsSync(absPath) || readFileSync(absPath, 'utf-8') !== content) {

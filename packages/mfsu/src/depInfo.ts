@@ -54,6 +54,7 @@ export class DepInfo {
   writeCache() {
     fsExtra.mkdirpSync(dirname(this.cacheFilePath));
     logger.info('MFSU write cache');
+    console.log('this.cacheFilePath: ', this.cacheFilePath);
     writeFileSync(
       this.cacheFilePath,
       winPath(

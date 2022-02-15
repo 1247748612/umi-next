@@ -1,4 +1,4 @@
-import { lodash, Mustache } from '@umijs/utils';
+import { lodash, Mustache, winPath } from '@umijs/utils';
 import { existsSync, readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { IApi } from 'umi';
@@ -150,7 +150,9 @@ export default (api: IApi) => {
 
     api.writeTmpFile({
       content: Mustache.render(localeTpl, {
-        MomentLocales,
+        MomentLocales: MomentLocales.map((locale) => {
+          return `import '${winPath(join(momentPkgPath, 'locale', locale))}'`;
+        }).join('\n'),
         DefaultMomentLocale,
         NormalizeAntdLocalesName,
         DefaultAntdLocales,
@@ -159,7 +161,7 @@ export default (api: IApi) => {
         BaseSeparator: baseSeparator,
         DefaultLocale: defaultLocale,
         DefaultLang: defaultLocale,
-        momentPkgPath,
+        momentPkgPath: winPath(momentPkgPath),
       }),
       path: 'locale.tsx',
     });
